@@ -2,13 +2,34 @@
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 cd $ROOT
 
-# Deleting dist
-echo Deleting dist folder
-rm -rf $ROOT/build $ROOT/dist &>/dev/null 2>&1
+# Clean up from last time
+echo Deleting old build folder
+rm -rf $ROOT/build &>/dev/null 2>&1
+
+# Build the osx launcher
+echo Building OSX launcher
+cd $ROOT/install/osx-launcher
+cargo build --release
+cd $ROOT
+export OSX_LAUNCHER=$ROOT/install/osx-launcher/target/release/osx-launcher
 
 # Build the .app
-echo Building GPG Sync.app
-python3 setup.py bdist_mac
+echo Building GPGSync.app
+
+# Create the right directories
+export APP_CONTENTS=$ROOT/build/GPGSync.app/Contents
+mkdir -p $APP_CONTENTS
+mkdir $APP_CONTENTS/Frameworks
+mkdir $APP_CONTENTS/MacOS
+mkdir $APP_CONTENTS/Resources
+
+# Add the Info.plist file
+VERSION=`cat $ROOT/share/version`
+sed s/{VERSION}/$VERSION/g $ROOT/install/Info.plist > $APP_CONTENTS/Info.plist
+
+# Add the osx launcher
+cp $OSX_LAUNCHER $APP_CONTENTS/MacOS/gpgsync
+
 
 if [ "$1" = "--release" ]; then
   mkdir -p dist
