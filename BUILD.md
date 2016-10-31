@@ -18,11 +18,7 @@ Install some dependencies using pip3:
 sudo pip3 install requests requests[socks] packaging
 ```
 
-Install the latest development version of cx_Freeze:
-
-* Download a [snapshot](https://bitbucket.org/anthony_tuininga/cx_freeze/downloads) of the latest development version of cx_Freeze, extract it, and cd into the folder you extracted it to
-* Build the package: `python3 setup.py bdist_wheel`
-* Install it with pip: `sudo pip3 install dist/cx_Freeze-5.0-cp35-cp35m-macosx_10_11_x86_64.whl`
+Download and install the [Rust programming language](https://www.rust-lang.org/en-US/), which is required for building the OSX launcher.
 
 Now you're ready to build the actual app. Go to the `gpgsync` folder before and run this to build the app:
 
@@ -30,15 +26,15 @@ Now you're ready to build the actual app. Go to the `gpgsync` folder before and 
 install/build_osx.sh
 ```
 
-Now you should have `dist/GPG Sync.app`.
+Now you should have `build/GPG Sync.app`.
 
 To codesign and build a .pkg for distribution:
 
 ```sh
-install/build_osx.sh --sign
+install/build_osx.sh --release
 ```
 
-Now you should have `dist/GPG Sync.pkg`. NOTE: This isn't implemented yet.
+Now you should have `dist/GPGSync.pkg`. NOTE: This isn't implemented yet.
 
 ## Linux distributions
 
