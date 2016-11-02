@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>gpgsync</string>
+	<string>launcher.sh</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.firstlook.gpgsync</string>
 	<key>NSHighResolutionCapable</key>

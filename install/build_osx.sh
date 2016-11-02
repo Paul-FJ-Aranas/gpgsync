@@ -6,13 +6,6 @@ cd $ROOT
 echo Deleting old build folder
 rm -rf $ROOT/build &>/dev/null 2>&1
 
-# Build the osx launcher
-echo Building OSX launcher
-cd $ROOT/install/osx-launcher
-cargo build --release
-cd $ROOT
-export OSX_LAUNCHER=$ROOT/install/osx-launcher/target/release/osx-launcher
-
 # Build the .app
 echo Building \'GPG Sync.app\'
 
@@ -35,6 +28,7 @@ mkdir -p "$APP_CONTENTS/MacOS/env/bin"
 cp "$ROOT/env/bin/python3" "$APP_CONTENTS/MacOS/env/bin"
 cp "$ROOT/env/.Python" "$APP_CONTENTS/MacOS/env"
 cp -r "$ROOT/env/lib" "$APP_CONTENTS/MacOS/env/lib"
+ln -s "$ROOT/env/bin/python3" "$APP_CONTENTS/MacOS/GPG Sync"
 
 # Add qt5 and pyqt5, installed by homebrew
 cp -r /usr/local/lib/python3.5/site-packages/sip* "$APP_CONTENTS/MacOS/env/lib/python3.5/site-packages/"
@@ -45,8 +39,8 @@ cp -r /usr/local/lib/python3.5/site-packages/PyQt5 "$APP_CONTENTS/MacOS/env/lib/
 cp -r "$ROOT/gpgsync" "$APP_CONTENTS/MacOS/env/lib/python3.5/"
 
 # Add the osx launcher
-cp $OSX_LAUNCHER "$APP_CONTENTS/MacOS/gpgsync"
-
+cp "$ROOT/install/osx-launcher.sh" "$APP_CONTENTS/MacOS/launcher.sh"
+chmod 755 "$APP_CONTENTS/MacOS/launcher.sh"
 
 if [ "$1" = "--release" ]; then
   mkdir -p dist
