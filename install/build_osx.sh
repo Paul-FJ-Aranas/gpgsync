@@ -24,19 +24,26 @@ cp "$ROOT/install/gpgsync.icns" "$APP_CONTENTS/Resources/gpgsync.icns"
 cp -r "$ROOT/share" "$APP_CONTENTS/Resources/share"
 
 # Add python and pip packages
-mkdir -p "$APP_CONTENTS/MacOS/env/bin"
-cp "$ROOT/env/bin/python3" "$APP_CONTENTS/MacOS/env/bin"
-cp "$ROOT/env/.Python" "$APP_CONTENTS/MacOS/env"
-cp -r "$ROOT/env/lib" "$APP_CONTENTS/MacOS/env/lib"
-ln -s "$ROOT/env/bin/python3" "$APP_CONTENTS/MacOS/GPG Sync"
+mkdir -p "$APP_CONTENTS/MacOS/bin"
+cp "$ROOT/env/bin/python3" "$APP_CONTENTS/MacOS/bin"
+cp "$ROOT/env/.Python" "$APP_CONTENTS/MacOS"
+cp -r "$ROOT/env/lib" "$APP_CONTENTS/MacOS/lib"
+
+# Make a relative symlink to python3 called "GPG Sync"
+cd "$APP_CONTENTS/MacOS"
+ln -s bin/python3 "GPG Sync"
+cd $ROOT
 
 # Add qt5 and pyqt5, installed by homebrew
-cp -r /usr/local/lib/python3.5/site-packages/sip* "$APP_CONTENTS/MacOS/env/lib/python3.5/site-packages/"
-cp -r /usr/local/lib/python3.5/site-packages/PyQt5 "$APP_CONTENTS/MacOS/env/lib/python3.5/site-packages/"
+cp -r /usr/local/lib/python3.5/site-packages/sip* "$APP_CONTENTS/MacOS/lib/python3.5/site-packages/"
+cp -r /usr/local/lib/python3.5/site-packages/PyQt5 "$APP_CONTENTS/MacOS/lib/python3.5/site-packages/"
 # todo: add Qt5
 
 # Add gpgsync python module
-cp -r "$ROOT/gpgsync" "$APP_CONTENTS/MacOS/env/lib/python3.5/"
+cp -r "$ROOT/gpgsync" "$APP_CONTENTS/MacOS"
+cd "$APP_CONTENTS/MacOS/lib/python3.5/"
+ln -s ../../gpgsync gpgsync
+cd $ROOT
 
 # Add the osx launcher
 cp "$ROOT/install/osx-launcher.sh" "$APP_CONTENTS/MacOS/launcher.sh"
