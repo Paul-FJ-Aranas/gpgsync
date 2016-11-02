@@ -12,10 +12,14 @@ Install some dependencies using Homebrew:
 brew install python3 pyqt5 qt5
 ```
 
+Note that there's no simple way to install specific versions of Homebrew packages. If you're following these instructions in the future, you might need to modify `install/build_osx.sh` to use new paths of the newer versions of these packages.
+
 Install some dependencies using pip3:
 
 ```sh
-sudo pip3 install requests requests[socks] packaging
+virtualenv -p python3 env
+. env/bin/activate
+pip3 install -r requirements.txt
 ```
 
 Download and install the [Rust programming language](https://www.rust-lang.org/en-US/), which is required for building the OSX launcher.
