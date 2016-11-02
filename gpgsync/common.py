@@ -50,12 +50,11 @@ def get_resource_path(filename):
     if platform.system() == 'Linux':
         prefix = os.path.join(sys.prefix, 'share/gpgsync')
     elif platform.system() == 'Darwin':
-        # Check if app is "frozen"
-        # http://cx-freeze.readthedocs.io/en/latest/faq.html#using-data-files
-        if getattr(sys, 'frozen', False):
-            prefix = os.path.join(os.path.dirname(sys.executable), 'share')
+        # Check if app is running inside an app bundle
+        if 'GPGSYNC_RESOURCE_DIR' in os.environ:
+            prefix = os.environ['GPGSYNC_RESOURCE_DIR']
         else:
-            prefix = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'share')
+            prefix = os.path.join(os.path.dirname(sys.executable), 'share')
 
     resource_path = os.path.join(prefix, filename)
     return resource_path

@@ -26,12 +26,14 @@ mkdir -p "$APP_CONTENTS/Resources"
 VERSION=`cat $ROOT/share/version`
 sed s/{VERSION}/$VERSION/g "$ROOT/install/Info.plist" > "$APP_CONTENTS/Info.plist"
 
-# Add the icon
+# Add the icon, and other resources
 cp "$ROOT/install/gpgsync.icns" "$APP_CONTENTS/Resources/gpgsync.icns"
+cp -r "$ROOT/share" "$APP_CONTENTS/Resources/share"
 
 # Add python and pip packages
 mkdir -p "$APP_CONTENTS/MacOS/env/bin"
 cp "$ROOT/env/bin/python3" "$APP_CONTENTS/MacOS/env/bin"
+cp "$ROOT/env/.Python" "$APP_CONTENTS/MacOS/env"
 cp -r "$ROOT/env/lib" "$APP_CONTENTS/MacOS/env/lib"
 
 # Add qt5 and pyqt5, installed by homebrew
