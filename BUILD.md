@@ -2,43 +2,27 @@
 
 ## Mac OS X
 
-Install Xcode from the Mac App Store. Once it's installed, run it for the first time to set it up.
+Download and install Python 3 from https://www.python.org/downloads/. I downloaded `python-3.5.2-macosx10.6.pkg`.
 
-If you don't already have it installed, install [Homebrew](http://brew.sh/).
+Download and install Qt5 from https://www.qt.io/download-open-source/. I downloaded `qt-unified-mac-x64-2.0.3-2-online.dmg`. When installing you can skip the Qt Account page. The OS X build script assumes you installed Qt in `~/Qt/`. Install `Qt 5.7 > OS X`.
 
-Install some dependencies using Homebrew:
-
-```sh
-brew install python3 pyqt5 qt5
-```
-
-Note that there's no simple way to install specific versions of Homebrew packages. If you're following these instructions in the future, you might need to modify `install/build_osx.sh` to use new paths of the newer versions of these packages.
-
-Install some dependencies using pip3:
-
-```sh
-virtualenv -p python3 env
-. env/bin/activate
-pip3 install -r requirements.txt
-```
-
-Download and install the [Rust programming language](https://www.rust-lang.org/en-US/), which is required for building the OSX launcher.
-
-Now you're ready to build the actual app. Go to the `gpgsync` folder before and run this to build the app:
+Go to the `gpgsync` folder before and run this to build the app. Here's how to build a `build/GPG Sync.app`:
 
 ```sh
 install/build_osx.sh
 ```
 
-Now you should have `build/GPG Sync.app`.
-
-To codesign and build a .pkg for distribution:
+Here's how to build a codesigned package for distribution, `dist\GPGSync.pkg`:
 
 ```sh
 install/build_osx.sh --release
 ```
 
-Now you should have `dist/GPGSync.pkg`. NOTE: This isn't implemented yet.
+Here's how to clean everything from an earlier build:
+
+```sh
+install/build_osx.sh --clean
+```
 
 ## Linux distributions
 
