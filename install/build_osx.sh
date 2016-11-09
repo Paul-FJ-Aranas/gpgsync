@@ -44,12 +44,223 @@ cp -r "$ROOT/share" "$APP_PATH/Contents/Resources/share"
 PYTHON_PATH="/Library/Frameworks/Python.framework/Versions/3.5/"
 mkdir -p "$APP_PATH/Contents/MacOS/bin"
 cp "$PYTHON_PATH/bin/python3.5" "$APP_PATH/Contents/MacOS/bin"
-cp "$PYTHON_PATH/Python" "$APP_PATH/Contents/MacOS"
-mkdir -p "$APP_PATH/Contents/MacOS/lib"
+#cp "$PYTHON_PATH/Python" "$APP_PATH/Contents/MacOS"
 
-# Add python modules
-cp -r "$PYTHON_PATH/lib/python3.5" "$APP_PATH/Contents/MacOS/lib"
-cp -r "$ROOT/build/packages" "$APP_PATH/Contents/MacOS/lib/"
+# Add only the python modules we need
+MODULES="LICENSE.txt
+__future__.py
+_collections_abc.py
+_compat_pickle.py
+_dummy_thread.py
+_osx_support.py
+_sitebuiltins.py
+_sysconfigdata.py
+_weakrefset.py
+abc.py
+ast.py
+base64.py
+bisect.py
+calendar.py
+cgi.py
+codecs.py
+collections
+contextlib.py
+copy.py
+copyreg.py
+datetime.py
+dis.py
+dummy_threading.py
+email
+encodings
+enum.py
+fnmatch.py
+functools.py
+genericpath.py
+hashlib.py
+heapq.py
+hmac.py
+html
+http
+importlib
+inspect.py
+io.py
+json
+keyword.py
+linecache.py
+locale.py
+logging
+mimetypes.py
+opcode.py
+operator.py
+os.py
+pickle.py
+platform.py
+posixpath.py
+queue.py
+quopri.py
+random.py
+re.py
+reprlib.py
+selectors.py
+shutil.py
+signal.py
+site.py
+socket.py
+sre_compile.py
+sre_constants.py
+sre_parse.py
+stat.py
+string.py
+struct.py
+subprocess.py
+sysconfig.py
+tarfile.py
+tempfile.py
+threading.py
+token.py
+tokenize.py
+traceback.py
+types.py
+urllib
+uu.py
+uuid.py
+warnings.py
+weakref.py"
+mkdir -p "$APP_PATH/Contents/MacOS/lib/python3.5"
+for FILE in $MODULES; do
+  cp -r "$PYTHON_PATH/lib/python3.5/$FILE" "$APP_PATH/Contents/MacOS/lib/python3.5/"
+done
+
+# Add only the dynamic libraries we need
+LIB_DYNLOAD="_md5.cpython-35m-darwin.so
+_posixsubprocess.cpython-35m-darwin.so
+_random.cpython-35m-darwin.so
+_scproxy.cpython-35m-darwin.so
+_sha1.cpython-35m-darwin.so
+_sha256.cpython-35m-darwin.so
+_sha512.cpython-35m-darwin.so
+_socket.cpython-35m-darwin.so
+_struct.cpython-35m-darwin.so
+binascii.cpython-35m-darwin.so
+math.cpython-35m-darwin.so
+select.cpython-35m-darwin.so
+zlib.cpython-35m-darwin.so"
+mkdir -p "$APP_PATH/Contents/MacOS/lib/python3.5/lib-dynload"
+for FILE in $LIB_DYNLOAD; do
+  cp -r "$PYTHON_PATH/lib/python3.5/lib-dynload/$FILE" "$APP_PATH/Contents/MacOS/lib/python3.5/lib-dynload"
+done
+
+# Add only the modules from pip that we need
+MODULES="PyQt5
+packaging
+pyparsing.py
+requests
+sip.so
+six.py
+socks.py
+sockshandler.py
+urllib3"
+mkdir -p "$APP_PATH/Contents/MacOS/lib/packages"
+for FILE in $MODULES; do
+  cp -r "$ROOT/build/packages/$FILE" "$APP_PATH/Contents/MacOS/lib/packages/"
+done
+
+# Delete the parts of PyQt5 we don't need
+PYQT5_TRASH="
+Qt/lib/QtBluetooth.framework
+Qt/lib/QtCLucene.framework
+Qt/lib/QtConcurrent.framework
+Qt/lib/QtDesigner.framework
+Qt/lib/QtHelp.framework
+Qt/lib/QtLocation.framework
+Qt/lib/QtMacExtras.framework
+Qt/lib/QtMultimedia.framework
+Qt/lib/QtMultimediaWidgets.framework
+Qt/lib/QtNetwork.framework
+Qt/lib/QtNfc.framework
+Qt/lib/QtOpenGL.framework
+Qt/lib/QtPositioning.framework
+Qt/lib/QtQml.framework
+Qt/lib/QtQuick.framework
+Qt/lib/QtQuickWidgets.framework
+Qt/lib/QtSensors.framework
+Qt/lib/QtSerialPort.framework
+Qt/lib/QtSql.framework
+Qt/lib/QtSvg.framework
+Qt/lib/QtTest.framework
+Qt/lib/QtWebChannel.framework
+Qt/lib/QtWebEngineCore.framework
+Qt/lib/QtWebEngineWidgets.framework
+Qt/lib/QtWebSockets.framework
+Qt/lib/QtXml.framework
+Qt/lib/QtXmlPatterns.framework
+Qt/plugins/audio
+Qt/plugins/bearer
+Qt/plugins/generic
+Qt/plugins/geoservices
+Qt/plugins/iconengines
+Qt/plugins/imageformats/libqdds.dylib
+Qt/plugins/imageformats/libqgif.dylib
+Qt/plugins/imageformats/libqico.dylib
+Qt/plugins/imageformats/libqjpeg.dylib
+Qt/plugins/imageformats/libqmacjp2.dylib
+Qt/plugins/imageformats/libqsvg.dylib
+Qt/plugins/imageformats/libqtga.dylib
+Qt/plugins/imageformats/libqtiff.dylib
+Qt/plugins/imageformats/libqwbmp.dylib
+Qt/plugins/imageformats/libqwebp.dylib
+Qt/plugins/mediaservice
+Qt/plugins/platforms/libqminimal.dylib
+Qt/plugins/platforms/libqoffscreen.dylib
+Qt/plugins/playlistformats
+Qt/plugins/position
+Qt/plugins/printsupport
+Qt/plugins/sceneparsers
+Qt/plugins/sensorgestures
+Qt/plugins/sensors
+Qt/plugins/sqldrivers
+QtBluetooth.so
+QtDBus.so
+QtDesigner.so
+QtHelp.so
+QtLocation.so
+QtMacExtras.so
+QtMultimedia.so
+QtMultimediaWidgets.so
+QtNetwork.so
+QtNfc.so
+QtOpenGL.so
+QtPositioning.so
+QtPrintSupport.so
+QtQml.so
+QtQuick.so
+QtQuickWidgets.so
+QtSensors.so
+QtSerialPort.so
+QtSql.so
+QtSvg.so
+QtTest.so
+QtWebChannel.so
+QtWebEngineCore.so
+QtWebEngineWidgets.so
+QtWebSockets.so
+QtXml.so
+QtXmlPatterns.so
+_QOpenGLFunctions_2_0.so
+_QOpenGLFunctions_2_1.so
+_QOpenGLFunctions_4_1_Core.so
+__pycache__/pylupdate_main.cpython-35.pyc
+__pycache__/pyrcc_main.cpython-35.pyc
+pylupdate.so
+pylupdate_main.py
+pyrcc.so
+pyrcc_main.py
+uic"
+for FILE in $PYQT5_TRASH; do
+  rm -r "$APP_PATH/Contents/MacOS/lib/packages/PyQt5/$FILE"
+done
+
+# Add gpgsync module
 cp -r "$ROOT/gpgsync" "$APP_PATH/Contents/MacOS/lib/packages/"
 
 # Add the osx launcher
